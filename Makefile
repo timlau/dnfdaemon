@@ -177,7 +177,11 @@ test-release:
 	# Build RPMS 
 	@-rpmbuild --define '_topdir $(BUILDDIR)' -ba ${PKGNAME}.spec
 	@$(MAKE) test-cleanup
-	
+
+test-copr:
+	@$(MAKE) test-release
+	copr-cli build yumex-dnf $(BUILDDIR)/SRPMS/${APPNAME}-${NEW_VER}-${NEW_REL}*.src.rpm
+
 
 exit-session:
 	@/usr/bin/dbus-send --session --print-reply --dest="org.baseurl.DnfSession" / org.baseurl.DnfSession.Exit
